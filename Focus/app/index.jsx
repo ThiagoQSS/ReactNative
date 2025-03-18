@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import Colors from "../components/Colors";
 import CustomTopBar from "../components/commom/CustomTopBar";
-import NoteBlockFakeData from "../components/fakeDatas/fakeData";
+import NoteBlockFakeData from "../components/fakeDatas/NoteBlockFakeData";
 import NoteBlock from "../components/Focus/NoteBlock";
 
 export default function Focus() {
