@@ -4,6 +4,7 @@ import Colors from "../components/Colors";
 import CustomTopBar from "../components/commom/CustomTopBar";
 import NoteBlockFakeData from "../components/fakeDatas/NoteBlockFakeData";
 import NoteBlock from "../components/Focus/NoteBlock";
+import Spacer from "../components/commom/Spacer";
 
 export default function Focus() {
   return (
@@ -15,12 +16,13 @@ export default function Focus() {
           showsVerticalScrollIndicator={false}
           data={NoteBlockFakeData}
           numColumns={2}
-          columnWrapperStyle={{ justifyContent: "space-between", marginVertical: 10 }}
+          columnWrapperStyle={{ justifyContent: "space-between", marginVertical: 15 }}
           renderItem={({item}) => (
             <NoteBlock
               key={item.id}
               title={item.title}
               isFavorite={item.isFavorite}
+              body={item.body}
             />
           )}
         />

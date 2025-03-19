@@ -5,12 +5,13 @@ import { Dimensions } from "react-native";
 import { router } from "expo-router";
 const { width, height } = Dimensions.get("window");
 
-const NoteBlock = ({ title = "Notes!", id = -1 }) => {
-
+const NoteBlock = ({ title = "Notes!", id = -1, body }) => {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => router.push({ pathname: "/notes", params: { title, id } })}
+      onPress={() =>
+        router.push({ pathname: "/notes", params: { title, id, body } })
+      }
     >
       <View style={styles.textContainer}>
         <Text style={styles.text}>{title}</Text>
@@ -21,10 +22,10 @@ const NoteBlock = ({ title = "Notes!", id = -1 }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: width * 0.4,
-    height: width * 0.4,
+    width: width * 0.38,
+    height: width * 0.38,
     backgroundColor: Colors.surface,
-    borderRadius: 20,
+    borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
   },

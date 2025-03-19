@@ -6,6 +6,9 @@ export default function Layout() {
     <Stack
       screenOptions={{
         headerShown: false,
+        animation: "fade_from_bottom",
+        statusBarBackgroundColor: Colors.darkSurface,
+        statusBarStyle: "light",
       }}
     >
       <Stack.Screen name="index" options={{ title: "Focus" }} />
