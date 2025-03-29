@@ -1,11 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import Colors from "../Colors";
+import Colors from "../constants/Colors";
 import { Dimensions } from "react-native";
 import { router } from "expo-router";
 const { width, height } = Dimensions.get("window");
 
 const NoteBlock = ({ title = "Notes!", id = -1, body }) => {
+
   return (
     <TouchableOpacity
       style={styles.container}

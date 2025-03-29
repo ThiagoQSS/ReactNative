@@ -1,37 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
-import Colors from "../../../components/Colors";
+import Colors from "../../../components/constants/Colors";
 import CustomTopBar from "../../../components/commom/CustomTopBar";
-import RightIcon from "../../../components/commom/RightIcon";
 import { useLocalSearchParams } from "expo-router/build/hooks";
 import Spacer from "../../../components/commom/Spacer";
-
+import {
+  NotesContext,
+  bodyContext,
+  titleContext,
+} from "../../../components/contexts/NotesContext";
 const EditNote = () => {
-  const { title, id, body } = useLocalSearchParams();
+  const { id, isAdd = false } = useLocalSearchParams();
 
-  const [newTitle, setTitle] = useState(title);
-  const [newBody, setBody] = useState(body);
+  const { notes, setNotes } = useContext(NotesContext);
+  const { titleS, setTitle } = useContext(titleContext);
+  const { bodyS, setBody } = useContext(bodyContext);
 
   return (
     <View style={styles.container}>
-      <CustomTopBar name={"secretEdit"}>
+      <CustomTopBar
+        title={titleS}
+        body={bodyS}
+        isAdd={isAdd}
+        notes={notes}
+        setNotes={setNotes}
+        setTitle={setTitle}
+        setBody={setBody}
+        id={id}
+      >
         <TextInput
-          placeholder="Escreva o título aqui..."
-          style={styles.title}
+          placeholder="Título"
           placeholderTextColor={Colors.textTerciary}
-          value={newTitle}
+          style={styles.title}
+          value={titleS}
           onChangeText={(text) => setTitle(text)}
         />
       </CustomTopBar>
       <View style={styles.bodyContainer}>
         <ScrollView style={styles.scrollContainer}>
           <TextInput
+            placeholder="Escreva algo..."
+            placeholderTextColor={Colors.textTerciary}
             style={styles.text}
-            value={newBody}
+            value={bodyS}
             onChangeText={(text) => setBody(text)}
             multiline
           />
-					<Spacer height={100} width={"100%"}/>
+          <Spacer height={100} width={"100%"} />
         </ScrollView>
       </View>
     </View>
@@ -65,7 +80,7 @@ const styles = StyleSheet.create({
   },
   bodyContainer: {
     width: "90%",
-		height: "100%",
+    height: "100%",
     alignSelf: "center",
   },
   titleInput: {
