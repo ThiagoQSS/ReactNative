@@ -35,7 +35,9 @@ const CustomTopBar = ({
           style={styles.iconBox}
           onPress={() => {
             if (goBack !== "/default") router.push(goBack);
-            else if (isAdd === "true") {
+            else if (titleS === "" && bodyS === "") {
+              router.back();
+            } else if (isAdd === "true") {
               addToNotes(titleS, bodyS).then(() =>
                 getNotes()
                   .then((notes) => setNotes(notes))

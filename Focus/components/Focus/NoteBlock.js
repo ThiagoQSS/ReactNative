@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 import { Dimensions } from "react-native";
 import { router } from "expo-router";
+import Icon from "react-native-vector-icons/FontAwesome";
 const { width, height } = Dimensions.get("window");
 
-const NoteBlock = ({ title = "Notes!", id = -1, body }) => {
+const NoteBlock = ({ title = "Notes!", id = -1, body, type = "note" }) => {
+
+  const [starName, setStarName] = useState("star-o");
 
   return (
     <TouchableOpacity
@@ -14,9 +17,19 @@ const NoteBlock = ({ title = "Notes!", id = -1, body }) => {
         router.push({ pathname: "/notes", params: { title, id, body } })
       }
     >
+      <TouchableOpacity style={styles.starContainer}>
+        <Icon name={starName} size={15} color={Colors.green} />
+      </TouchableOpacity>
       <View style={styles.textContainer}>
-        <Text style={styles.text}>{title}</Text>
+        <Text style={styles.text} numberOfLines={3}>
+          {title}
+        </Text>
       </View>
+      { type !== "note" &&
+        <TouchableOpacity style={styles.checkContainer}>
+          <Icon name="check" size={15} color={Colors.green} />
+        </TouchableOpacity>
+      }
     </TouchableOpacity>
   );
 };
@@ -29,19 +42,34 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
+    paddingVertical: 10,
   },
   text: {
     color: Colors.white,
-    height: 30,
+    height: 60,
     textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    textAlignVertical: "center",
     fontSize: 15,
   },
   textContainer: {
-    flex: 1,
+    width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    alignSelf: "center",
+  },
+  starContainer: {
+    width: "80%",
+    height: 50,
+    position: "absolute",
+    top: 10,
+    left: 10,
+  },
+  checkContainer: {
+    width: "80%",
+    alignItems: "flex-end",
+    position: "absolute",
+    bottom: 10,
+    right: 10,
   },
 });
 

@@ -19,7 +19,7 @@ export const addToNotes = async (title, body) => {
 
 export const getNotes = async () => {
   const result = await db.getAllAsync(`SELECT * FROM notes;`);
-  console.log(result);
+  // console.log(result);
   return result;
 };
 

@@ -11,7 +11,7 @@ const Colors = {
   purple: "#bb86fc",
   darkPurple: "#3700b3",
   error: "#cf6679",
-  surface: "#1f1f1f",
+  surface: "#272727",
   darkSurface: "#191919",
   black: "#000000",
   offBlack: "#111111",

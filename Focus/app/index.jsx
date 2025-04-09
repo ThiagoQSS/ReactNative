@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Modal,
   Text,
+  Pressable,
+  TextInput,
 } from "react-native";
 import Colors from "../components/constants/Colors";
 import CustomTopBar from "../components/commom/CustomTopBar";
@@ -14,12 +16,19 @@ import NoteBlock from "../components/Focus/NoteBlock";
 import Icon from "react-native-vector-icons/Fontisto";
 import { router } from "expo-router";
 import { deleteAllNotes, getNotes } from "../services/NotesDB";
-import { NotesContext } from "../components/contexts/NotesContext";
+import {
+  NotesContext,
+  titleContext,
+  bodyContext,
+} from "../components/contexts/NotesContext";
 
 export default function Focus() {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [newModalVisible, setNewModalVisible] = useState(false);
+  const [taskModalVisible, setTaskModalVisible] = useState(false);
 
   const { notes, setNotes } = useContext(NotesContext);
+  const { titleS, setTitle } = useContext(titleContext);
+  const { bodyS, setBody } = useContext(bodyContext);
 
   useEffect(() => {
     getNotes().then((notes) => setNotes(notes));
@@ -53,7 +62,7 @@ export default function Focus() {
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => {
-            setModalVisible(!modalVisible);
+            setNewModalVisible(!newModalVisible);
           }}
         >
           <Icon name="plus-a" size={20} color={Colors.white} />
@@ -69,29 +78,81 @@ export default function Focus() {
           <Icon name="trash" size={20} color={Colors.white} />
         </TouchableOpacity>
       </CustomBottomBar>
-      <Modal animationType="fade" visible={modalVisible} transparent>
-        <View style={styles.modalCentered}>
+      <Modal animationType="fade" visible={newModalVisible} transparent>
+        <Pressable
+          style={styles.modalCentered}
+          onPress={() => setNewModalVisible(false)}
+        >
           <View style={styles.modalContent}>
             <TouchableOpacity
-              style={[
-                styles.optionButton,
-                { borderBottomWidth: 1, borderColor: Colors.darkGreen },
-              ]}
+              style={styles.optionButton}
               onPress={() => {
+                setTitle("");
+                setBody("");
                 router.push({
                   pathname: "/notes/edit_note",
                   params: { isAdd: true },
                 });
-                setModalVisible(false);
+                setNewModalVisible(false);
               }}
             >
               <Text style={styles.option}>Nota</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.optionButton}>
+            <View
+              style={{
+                borderBottomWidth: 1,
+                borderColor: Colors.darkGreen,
+                width: "90%",
+              }}
+            />
+            <TouchableOpacity
+              style={styles.optionButton}
+              onPress={() => {
+                setNewModalVisible(false);
+                setTaskModalVisible(true);
+              }}
+            >
               <Text style={styles.option}>Lista de Verificação</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </Pressable>
+      </Modal>
+
+      <Modal animationType="fade" visible={taskModalVisible} transparent>
+        <Pressable
+          style={styles.modalCentered}
+          onPress={() => setTaskModalVisible(false)}
+        >
+          <View style={styles.taskModalContent}>
+            <View
+              style={{
+                width: "90%",
+                alignItems: "center",
+                alignSelf: "center",
+                padding: 10,
+              }}
+            >
+              <Text style={styles.title}>Nome da lista</Text>
+              <TextInput
+                placeholder="Escolha um nome..."
+                placeholderTextColor={Colors.textTerciary}
+                borderBottomWidth={1}
+                borderColor={Colors.darkGreen}
+                style={styles.input}
+              />
+              <View
+                style={{ flexDirection: "row", width: "100%", marginTop: 10 }}
+              >
+                <TouchableOpacity
+                  style={{ flex: 1, alignItems: "center", height: 30, marginTop: 10 }}
+                  onPress={() => setTaskModalVisible(false)}
+                >
+                  <Text style={styles.option}>Criar</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Pressable>
       </Modal>
     </View>
   );
@@ -122,7 +183,14 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: "50%",
+    borderRadius: 10,
     height: 100,
+    backgroundColor: Colors.black,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  taskModalContent: {
+    width: "70%",
     borderRadius: 10,
     backgroundColor: Colors.black,
     alignItems: "center",
@@ -137,5 +205,17 @@ const styles = StyleSheet.create({
     height: "50%",
     alignItems: "center",
     justifyContent: "center",
+  },
+  title: {
+    fontSize: 16,
+    color: Colors.green,
+    marginBottom: 10,
+  },
+  input: {
+    width: "100%",
+    borderBottomWidth: 1,
+    borderColor: Colors.darkGreen,
+    color: Colors.white,
+    height: 40,
   },
 });
