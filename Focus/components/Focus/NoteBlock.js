@@ -14,7 +14,7 @@ const NoteBlock = ({ title = "Notes!", id = -1, body, type = "note" }) => {
     <TouchableOpacity
       style={styles.container}
       onPress={() =>
-        router.push({ pathname: "/notes", params: { title, id, body } })
+        router.push({ pathname: "/notes", params: { title, id, body, type } })
       }
     >
       <TouchableOpacity style={styles.starContainer}>

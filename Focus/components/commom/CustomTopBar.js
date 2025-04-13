@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { router } from "expo-router";
-import { addToNotes, editNote, getNotes } from "../../services/NotesDB";
+import { addToItems, editNote, getItems } from "../../services/NotesDB";
 import {
   NotesContext,
   titleContext,
@@ -38,17 +38,21 @@ const CustomTopBar = ({
             else if (titleS === "" && bodyS === "") {
               router.back();
             } else if (isAdd === "true") {
-              addToNotes(titleS, bodyS).then(() =>
-                getNotes()
-                  .then((notes) => setNotes(notes))
-                  .catch((err) => console.log("error adding notes: ", err))
-              );
+              try {
+                addToItems(titleS, bodyS).then(() =>
+                  getItems()
+                    .then((items) => setNotes(items))
+                    .catch((err) => console.log("error adding notes: ", err))
+                );
+              } catch (error) {
+                console.log("error here: ", error);
+              }
               router.back();
             } else {
               editNote(id, titleS, bodyS).then(() => {
-                getNotes()
-                  .then((notes) => {
-                    setNotes(notes);
+                getItems()
+                  .then((items) => {
+                    setNotes(items);
                     setTitle(titleS);
                     setBody(bodyS);
                     //console.log("after edit: ", notes);

@@ -13,6 +13,7 @@ const Colors = {
   error: "#cf6679",
   surface: "#272727",
   darkSurface: "#191919",
+  darkerSurface: "#121212",
   black: "#000000",
   offBlack: "#111111",
   background: "#000222",
